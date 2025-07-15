@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.intrafind.llm.error.ErrorHandlingTest
--------------------------------------------------------------------------------
-Tests run: 14, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 5.101 s -- in com.intrafind.llm.error.ErrorHandlingTest
