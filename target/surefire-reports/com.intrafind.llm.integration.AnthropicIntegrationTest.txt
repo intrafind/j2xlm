@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.intrafind.llm.integration.AnthropicIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 16, Time elapsed: 0.007 s -- in com.intrafind.llm.integration.AnthropicIntegrationTest
