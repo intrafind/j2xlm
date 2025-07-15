@@ -12,6 +12,15 @@
     
     <name>J2XLM</name>
     <description>Java library for abstracting LLM APIs</description>
+    <url>https://github.com/intrafind/j2xlm</url>
+    
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/intrafind/j2xlm</url>
+        </repository>
+    </distributionManagement>
     
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
