@@ -3,6 +3,9 @@ package com.intrafind.llm.integration;
 import com.intrafind.llm.core.LLMProvider;
 import com.intrafind.llm.core.LLMRequest;
 import com.intrafind.llm.core.LLMResponse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
@@ -157,5 +160,20 @@ public class OpenAIIntegrationTest extends BaseIntegrationTest {
         assertTrue((Integer) usage.get("prompt_tokens") > 0);
         assertTrue((Integer) usage.get("completion_tokens") > 0);
         assertTrue((Integer) usage.get("total_tokens") > 0);
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "INTEGRATION_TESTS", matches = "true")
+    public void testImageDescription() throws IOException {
+        assumeApiKeyPresent();
+
+        LLMRequest request = new LLMRequest("Describe the content of this image comprehensively.")
+            .withImage("image/jpeg",
+                Files.readAllBytes(Path.of("src/test/resources/city.jpg")));
+
+        LLMResponse response = client.generate(request);
+
+        assertNotNull(response);
+        assertFalse(response.getContent().isEmpty());
     }
 }

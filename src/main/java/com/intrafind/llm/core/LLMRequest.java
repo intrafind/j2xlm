@@ -1,5 +1,6 @@
 package com.intrafind.llm.core;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,8 @@ public class LLMRequest {
     private String model;
     private List<String> stopSequences;
     private List<Tool> tools;
-    
+    private ImageDTO image;
+
     public LLMRequest(String prompt) {
         this.prompt = prompt;
         this.parameters = new HashMap<>();
@@ -74,5 +76,25 @@ public class LLMRequest {
     public LLMRequest withTools(List<Tool> tools) {
         this.tools = tools;
         return this;
+    }
+
+    public ImageDTO getImage() {
+        return image;
+    }
+
+    public void setImage(String mediaType, byte[] data) {
+        this.image = new ImageDTO(mediaType, data);
+    }
+
+    public LLMRequest withImage(String mediaType, byte[] data) {
+        this.image = new ImageDTO(mediaType, data);
+        return this;
+    }
+
+    public record ImageDTO(String mediaType, byte[] data) {
+
+        public String asDataUrl() {
+            return "data:" + mediaType + ";base64," + Base64.getEncoder().encodeToString(data);
+        }
     }
 }
