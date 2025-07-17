@@ -4,13 +4,17 @@ import com.intrafind.llm.config.LLMConfig;
 import com.intrafind.llm.core.LLMClient;
 import com.intrafind.llm.core.LLMProvider;
 import com.intrafind.llm.core.LLMRequest;
+import com.intrafind.llm.core.LLMRequest.ImageDTO;
 import com.intrafind.llm.core.LLMResponse;
 import com.intrafind.llm.exceptions.LLMException;
 import com.intrafind.llm.utils.HttpClient;
 import com.intrafind.llm.utils.JsonParser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class OpenAIClient implements LLMClient {
     private static final String DEFAULT_BASE_URL = "https://api.openai.com/v1";
@@ -41,8 +45,13 @@ public class OpenAIClient implements LLMClient {
             
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("model", request.getModel() != null ? request.getModel() : DEFAULT_MODEL);
+            List<Map<String, ?>> prompt = new ArrayList<>();
+            prompt.add(Map.of("type", "text", "text", request.getPrompt()));
+            Optional.ofNullable(request.getImage())
+                .map(ImageDTO::asDataUrl)
+                .ifPresent(imageURL -> prompt.add(Map.of("type", "image_url", "image_url", Map.of("url", imageURL))));
             requestBody.put("messages", new Object[]{
-                Map.of("role", "user", "content", request.getPrompt())
+                Map.of("role", "user", "content", prompt)
             });
             
             // Add parameters
